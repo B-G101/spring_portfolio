@@ -134,6 +134,7 @@ public class Calculator {
                 case "*":
                 case "/":
                 case "%":
+                case "^":
                     // While stack
                     // not empty AND stack top element
                     // and is an operator
@@ -287,8 +288,10 @@ public class Calculator {
 
         System.out.println();
 
-        Calculator incorrectParenthesisMath = new Calculator("((200+400)+10");
-        System.out.println("Parentheses but Incorrect Math\n" + incorrectParenthesisMath);
+        Calculator exponentMath = new Calculator("3^2");
+        System.out.println("Exponent Math\n" + exponentMath);
+
+        System.out.println();
 
     }
 }
