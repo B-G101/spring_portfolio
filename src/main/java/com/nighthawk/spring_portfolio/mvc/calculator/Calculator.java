@@ -18,6 +18,7 @@ public class Calculator {
     private final String expression;
     private ArrayList<String> tokens;
     private ArrayList<String> reverse_polish;
+    private ArrayList<String> delimiters;
     private Double result = 0.0;
 
     // Helper definition for supported operators
@@ -29,6 +30,7 @@ public class Calculator {
         OPERATORS.put("%", 3);
         OPERATORS.put("+", 4);
         OPERATORS.put("-", 4);
+        OPERATORS.put("^", 1);
     }
 
     // Helper definition for supported operators
@@ -157,6 +159,26 @@ public class Calculator {
 
     }
 
+    private double calculate(double firstNum, double secondNum, String operator) {
+        switch(operator) {
+            case "+":
+                return firstNum + secondNum;
+            case "-":
+                return firstNum - secondNum;
+            case "*":
+                return firstNum * secondNum;
+            case "/":
+                return firstNum / secondNum;
+            case "^":
+                return Math.pow(firstNum, secondNum);
+            case "%":
+                return firstNum % secondNum;
+            default:
+                throw new RuntimeException("Unsupported operator: " + operator);
+
+        }
+    }
+
     // Takes RPN and produces a final result
     private void rpnToResult()
     {
@@ -170,9 +192,12 @@ public class Calculator {
             if (isOperator(token))
             {
                 // Pop the two top entries
+                double pop1 = Double.valueOf(calcStack.pop());
+                double pop2 = Double.valueOf(calcStack.pop());
 
                 // Calculate intermediate results
                 result = 0.0;
+                result = calculate(pop2 , pop1 , token);
 
                 // Push intermediate result back onto the stack
                 calcStack.push( result );
@@ -186,12 +211,51 @@ public class Calculator {
         // Pop final result and set as final result for expression
         this.result = calcStack.pop();
     }
+    // Delimiter checks
+    // Only checked the tokens lists for parenthesis basically :)
+    private String getDelimitersList(){
+        this.delimiters = new ArrayList<>();
+        for (String token : tokens) {
+            if (isSeparator(token)) {
+                if (token != " "){
+                    delimiters.add(token);
+                }
+            }
+
+        }
+        return this.delimiters.toString();
+
+    }
+
+    private String parenthesesCheck() {
+        int firstParen = 0;
+        int secondParen = 0;
+        for (String token : tokens){
+            if (isSeparator(token)){
+                if (token == "("){
+                    firstParen++;
+                }
+                else if (token == ")"){
+                    secondParen++;
+                }
+            }
+        }
+
+        if (firstParen != secondParen){
+            System.out.println("Delimiter Error: Check the number of Parenthesis");
+        }
+
+        return "There are " + firstParen + " parenthesis in this expression";
+    }
+   
 
     // Print the expression, terms, and result
     public String toString() {
         return ("Original expression: " + this.expression + "\n" +
                 "Tokenized expression: " + this.tokens.toString() + "\n" +
                 "Reverse Polish Notation: " +this.reverse_polish.toString() + "\n" +
+                "Delimiters List: " +this.getDelimitersList() + "\n" +
+                "Parenthesis Check: " + this.parenthesesCheck() + "\n" +
                 "Final result: " + String.format("%.2f", this.result));
     }
 
@@ -220,6 +284,11 @@ public class Calculator {
 
         Calculator divisionMath = new Calculator("300/200");
         System.out.println("Division Math\n" + divisionMath);
+
+        System.out.println();
+
+        Calculator incorrectParenthesisMath = new Calculator("((200+400)+10");
+        System.out.println("Parentheses but Incorrect Math\n" + incorrectParenthesisMath);
 
     }
 }
