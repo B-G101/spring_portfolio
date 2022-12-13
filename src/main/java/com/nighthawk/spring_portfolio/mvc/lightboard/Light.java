@@ -2,6 +2,7 @@ package com.nighthawk.spring_portfolio.mvc.lightboard;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import lombok.Data;
 
@@ -41,10 +42,14 @@ public class Light {
         EFFECT.put((short) 9, "Crossed_out");
     }
 
-    /* Assign random colors and effects */
+    /* Assign random colors and effects and on vs off*/
     public Light() {
         int maxColor = 255;
         int effect = 9;
+
+        Random status = new Random();
+        this.on = status.nextBoolean();
+        
         this.red = (short) (Math.random()*(maxColor+1));
         this.green = (short) (Math.random()*(maxColor+1));
         this.blue = (short) (Math.random()*(maxColor+1));
@@ -63,9 +68,40 @@ public class Light {
          );
     }
 
+    public void setRGB(short redd, short greenn, short bluee){
+        this.red = redd;
+        this.green = greenn;
+        this.blue = bluee;
+    }
+
+    public boolean isOn(){
+        return this.on;
+    }
+
+    public void setOn(boolean on){
+        this.on = on;
+    }
+
+    public short getRed(){
+        return red;
+    }
+
+    public short getGreen(){
+        return green;
+    }
+
+    public short getBlue(){
+        return blue;
+    }
+
+    public short getEffect(){
+        return effect;
+    }
+
     /* toString output as key/values */
     public String toString() {
         return( "{" + 
+            "\"on\": " + on + "," +
             "\"red\": " + red + "," +
             "\"green\": " +  green + "," + 
             "\"blue\": " + blue + "," +
