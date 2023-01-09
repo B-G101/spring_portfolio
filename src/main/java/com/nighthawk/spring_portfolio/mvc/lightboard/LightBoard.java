@@ -1,6 +1,7 @@
 package com.nighthawk.spring_portfolio.mvc.lightboard;
 
 import lombok.Data;
+import java.util.Scanner;
 
 @Data  // Annotations to simplify writing code (ie constructors, setters)
 public class LightBoard {
@@ -12,7 +13,9 @@ public class LightBoard {
         // 2D array nested loops, used for initialization
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                lights[row][col] = new Light();  // each cell needs to be constructed
+                //temporary passing of color parameter, unsure how to pass user input 
+                int color = 2;
+                lights[row][col] = new Light(color);  // each cell needs to be constructed
             }
         }
     }
@@ -55,8 +58,6 @@ public class LightBoard {
                 lights[row][col].getEffect() + "m" +
                 // data, extract custom getters
                 "{" +
-                "\"" + "isOn\": " + lights[row][col].isOn() +
-                "," +
                 "\"" + "RGB\": " + "\"" + lights[row][col].getRGB() + "\"" +
                 "," +
                 "\"" + "Effect\": " + "\"" + lights[row][col].getEffectTitle() + "\"" +
@@ -86,7 +87,6 @@ public class LightBoard {
                 for (int col = 0; col < lights[row].length; col++) {
                     // repeat each column for block size
                     for (int j = 0; j < COLS; j++) {
-                        if (lights[row][col].isOn()) {
                         // print single character, except at midpoint print color code
                         String c = (i == (int) (ROWS / 2) && j == (int) (COLS / 2) ) 
                             ? lights[row][col].getRGB()
@@ -110,7 +110,6 @@ public class LightBoard {
 
                         // reset
                         "\033[m";
-                        }
                     }
                 }
                 outString += "\n";
@@ -120,46 +119,19 @@ public class LightBoard {
         outString += "\033[m";
 		return outString;
     }
-
-    public void lightToggle(int row, int col){
-        if (lights[row][col].isOn()) {
-            lights[row][col].setOn(false);
-        }
-        else {
-            lights[row][col].setOn(true);
-        }
-        System.out.println("Toggled light " + row + ", " + col + " to " + lights[row][col].isOn() + "!");
-    }
-
-    public void allOn() {
-        for (int i = 0; i < lights.length; i++) {
-            for (int j = 0; j < lights[i].length; j++) {
-                lights[i][j].setOn(true);
-            }
-        }
-        System.out.println("Set all lights to on!");
-    }
-
-    public void setColor(int row, int col, short redd, short greenn, short bluee) {
-        lights[row][col].setRGB(redd,greenn,bluee);
-    }
-
-
     
     static public void main(String[] args) {
+        //gets user input to make size
+        System.out.println("How many rows/columns?");
+        Scanner sc = new Scanner(System.in); 
+        int size = sc.nextInt();
+
         // create and display LightBoard
-        LightBoard lightBoard = new LightBoard(5, 5);
-        LightBoard lightBoard2 = new LightBoard(5, 5);
+        LightBoard lightBoard = new LightBoard(size, size);
         System.out.println(lightBoard);  // use toString() method
         System.out.println(lightBoard.toTerminal());
         System.out.println(lightBoard.toColorPalette());
-        lightBoard.allOn();
-        System.out.println(lightBoard.toColorPalette());
-        lightBoard2.lightToggle(2, 3);
-        System.out.println(lightBoard2.toColorPalette());
-        System.out.println(lightBoard.toColorPalette());
-        short redd = 0; short greenn = 0; short bluee = 0;
-        lightBoard.setColor(2,2,redd,greenn,bluee);
-        System.out.println(lightBoard.toColorPalette());
+
+        sc.close();
     }
 }
