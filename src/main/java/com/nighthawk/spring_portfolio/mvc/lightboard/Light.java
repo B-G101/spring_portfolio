@@ -2,9 +2,9 @@ package com.nighthawk.spring_portfolio.mvc.lightboard;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import lombok.Data;
+import java.util.Scanner;
 
 @Data  // Annotations to simplify writing code (ie constructors, setters)
 public class Light {
@@ -42,18 +42,32 @@ public class Light {
         EFFECT.put((short) 9, "Crossed_out");
     }
 
-    /* Assign random colors and effects and on vs off*/
-    public Light() {
+    public Light(int color) {
         int maxColor = 255;
         int effect = 9;
-
-        Random status = new Random();
-        this.on = status.nextBoolean();
         
-        this.red = (short) (Math.random()*(maxColor+1));
-        this.green = (short) (Math.random()*(maxColor+1));
-        this.blue = (short) (Math.random()*(maxColor+1));
+        double red = Math.random()*(maxColor+1); 
+        double green = Math.random()*(maxColor+1); 
+        double blue = Math.random()*(maxColor+1); 
+      
+        if (color ==1){
+            red = 0;
+        }
+        else if (color == 2){
+            green = 0;
+        }
+        else if (color == 3){
+            blue = 0;
+        }
+        else {
+            System.out.println("Not a valid number");
+        }
+
+        this.red = (short) (red);
+        this.green = (short) (green);
+        this.blue = (short) (blue);
         this.effect = (short) (Math.random()*(effect+1));
+
     }
 
     public String getEffectTitle() {
@@ -68,40 +82,9 @@ public class Light {
          );
     }
 
-    public void setRGB(short redd, short greenn, short bluee){
-        this.red = redd;
-        this.green = greenn;
-        this.blue = bluee;
-    }
-
-    public boolean isOn(){
-        return this.on;
-    }
-
-    public void setOn(boolean on){
-        this.on = on;
-    }
-
-    public short getRed(){
-        return red;
-    }
-
-    public short getGreen(){
-        return green;
-    }
-
-    public short getBlue(){
-        return blue;
-    }
-
-    public short getEffect(){
-        return effect;
-    }
-
     /* toString output as key/values */
     public String toString() {
         return( "{" + 
-            "\"on\": " + on + "," +
             "\"red\": " + red + "," +
             "\"green\": " +  green + "," + 
             "\"blue\": " + blue + "," +
@@ -110,8 +93,12 @@ public class Light {
     }
 
     static public void main(String[] args) {
+        //passing color parameter
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What color do you want to 0 out for? (1: red, 2: green, 3: blue)");
+        int color = sc.nextInt();
         // create and display LightBoard
-        Light light = new Light();
+        Light light = new Light(color);
         System.out.println(light);  // use toString() method
     }
 }

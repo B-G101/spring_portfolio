@@ -73,25 +73,51 @@ public class Person {
         }
     }
     */
+    @NotEmpty
+    private String height; 
+
+    @NotEmpty
+    private String weight;
+
     @Type(type="json")
     @Column(columnDefinition = "jsonb")
-    private Map<String,Map<String, Object>> stats = new HashMap<>(); 
+    private Map<String,Map<String, Object>> stats = new HashMap<>();
     
 
     // Constructor used when building object from an API
-    public Person(String email, String password, String name, Date dob) {
+    public Person(String email, String password, String name, Date dob, String height, String weight) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.dob = dob;
+        this.height = height;
+        this.weight = weight;
     }
 
     // A custom getter to return age from dob attribute
     public int getAge() {
         if (this.dob != null) {
             LocalDate birthDay = this.dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            return Period.between(birthDay, LocalDate.now()).getYears(); }
+            return Period.between(birthDay, LocalDate.now()).getYears(); 
+        }
         return -1;
     }
 
+    public String toString(){
+        return ( "{ \"name\": "  +this.name+  ", " + "\"dob\": "  +this.dob+ " \"email\": "  +this.email+ "\"password\": "  +this.password+ ", \"height\": "  +this.height+ "\"weight\": "  +this.weight+ " }" );
+    }	
+
+    public static void main(String args[]){
+        //makes date 
+        LocalDate dob =LocalDate.of(2005,06,30);
+        Date date = Date.from(dob.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        //no arguments
+        Person noArgs = new Person();
+        //arguments
+        Person calissa = new Person("calissat@gmail.com", "codecodecode", "Calissa Tyrrell", date, "5 foot 9", "170 lbs");
+        System.out.println(noArgs);
+        System.out.println(calissa);
+
+    }
 }
+
