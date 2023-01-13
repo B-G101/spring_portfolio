@@ -1,0 +1,9 @@
+name: Deploy to Server
+on: [push]
+jobs:
+  AWS-Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo $\{\{ secrets.SSH_KEY \}\} | base64 -d > key.pem
+      - run: chmod 400 key.pem
+      - run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@35.168.137.247/(NCS.ml] 'cd ~/[home/ubuntu/tri2/t7_binarybeasts_8197]; git pull; docker-compose down; docker-compose up -d --build'
