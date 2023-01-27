@@ -1,6 +1,6 @@
-package com.nighthawk.csa.mvc.database.person;
+package com.nighthawk.spring_portfolio.mvc.database.person;
 
-import com.nighthawk.csa.mvc.database.ModelRepository;
+import com.nighthawk.spring_portfolio.mvc.database.ModelRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
