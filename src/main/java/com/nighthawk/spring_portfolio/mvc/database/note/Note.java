@@ -1,4 +1,4 @@
-package com.nighthawk.csa.mvc.database.note;
+package com.nighthawk.spring_portfolio.mvc.database.note;
 
 import com.nighthawk.csa.mvc.database.person.Person;
 import lombok.*;
