@@ -2,8 +2,10 @@ package com.nighthawk.spring_portfolio.mvc.database;
 
 import com.nighthawk.spring_portfolio.mvc.database.person.Person;
 import com.nighthawk.spring_portfolio.mvc.database.person.PersonJpaRepository;
-import com.nighthawk.spring_portfolio.mvc.database.person.PersonRoleJpaRepository;
 import com.nighthawk.spring_portfolio.mvc.database.person.Role;
+import com.nighthawk.spring_portfolio.mvc.database.person.PersonRoleJpaRepository;
+//import com.nighthawk.spring_portfolio.mvc.database.scrum.Scrum;
+//import com.nighthawk.spring_portfolio.mvc.database.scrum.ScrumJpaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,8 +35,8 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
     private PersonJpaRepository personJpaRepository;
     @Autowired  // Inject RoleJpaRepository
     private PersonRoleJpaRepository roleJpaRepository;
-  //  @Autowired  // Inject RoleJpaRepository
-  //  private ScrumJpaRepository scrumJpaRepository;
+    //@Autowired  // Inject RoleJpaRepository
+    //private ScrumJpaRepository scrumJpaRepository;
 
     // Setup Password style for Database storing and lookup
     @Autowired  // Inject PasswordEncoder
@@ -92,7 +94,7 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
     }
 
     public void delete(long id) {
-        deleteScrumMember(id);   // make sure ID is no longer present in SCRUM Teams
+       // deleteScrumMember(id);   // make sure ID is no longer present in SCRUM Teams
         personJpaRepository.deleteById(id);
     }
 
@@ -147,8 +149,8 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
 
 
     /* Scrum Section */
-
-   /* public void saveScrum(Scrum scrum) {
+    /* 
+    public void saveScrum(Scrum scrum) {
         scrumJpaRepository.save(scrum);
     }
 
@@ -182,7 +184,7 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
             if (changed) {
                 scrumJpaRepository.save(scrum);}
         }
-
-    } */
-
+    
+    }
+    */
 }
