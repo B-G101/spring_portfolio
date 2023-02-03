@@ -2,10 +2,8 @@ package com.nighthawk.spring_portfolio.mvc.database;
 
 import com.nighthawk.spring_portfolio.mvc.database.person.Person;
 import com.nighthawk.spring_portfolio.mvc.database.person.PersonJpaRepository;
-import com.nighthawk.spring_portfolio.mvc.database.role.Role;
-import com.nighthawk.spring_portfolio.mvc.database.role.RoleJpaRepository;
-///import com.nighthawk.spring_portfolio.mvc.database.scrum.Scrum;
-///import com.nighthawk.spring_portfolio.mvc.database.scrum.ScrumJpaRepository;
+import com.nighthawk.spring_portfolio.mvc.database.person.PersonRoleJpaRepository;
+import com.nighthawk.spring_portfolio.mvc.database.person.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +32,7 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
     @Autowired  // Inject PersonJpaRepository
     private PersonJpaRepository personJpaRepository;
     @Autowired  // Inject RoleJpaRepository
-    private RoleJpaRepository roleJpaRepository;
+    private PersonRoleJpaRepository roleJpaRepository;
   //  @Autowired  // Inject RoleJpaRepository
   //  private ScrumJpaRepository scrumJpaRepository;
 

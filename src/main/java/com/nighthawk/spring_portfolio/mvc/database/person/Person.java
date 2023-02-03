@@ -1,6 +1,5 @@
 package com.nighthawk.spring_portfolio.mvc.database.person;
 
-import com.nighthawk.spring_portfolio.mvc.database.role.Role;
 import org.springframework.format.annotation.DateTimeFormat;
 import lombok.*;
 

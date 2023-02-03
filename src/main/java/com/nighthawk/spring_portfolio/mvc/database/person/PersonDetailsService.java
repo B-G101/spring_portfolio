@@ -1,4 +1,4 @@
-package com.nighthawk.spring_portfolio.mvc.person;
+package com.nighthawk.spring_portfolio.mvc.database.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -89,7 +89,7 @@ public class PersonDetailsService implements UserDetailsService {  // "implement
                 person.setPassword(passwordEncoder.encode(password));
             }
             if (person.getRoles().isEmpty()) {
-                PersonRole role = personRoleJpaRepository.findByName(roleName);
+                Role role = personRoleJpaRepository.findByName(roleName);
                 if (role != null) { // verify role
                     person.getRoles().add(role);
                 }
@@ -100,28 +100,28 @@ public class PersonDetailsService implements UserDetailsService {  // "implement
 
     /* Roles Section */
 
-    public void saveRole(PersonRole role) {
-        PersonRole roleObj = personRoleJpaRepository.findByName(role.getName());
+    public void saveRole(Role role) {
+        Role roleObj = personRoleJpaRepository.findByName(role.getName());
         if (roleObj == null) {  // only add if it is not found
             personRoleJpaRepository.save(role);
         }
     }
 
-    public  List<PersonRole>listAllRoles() {
+    public  List<Role>listAllRoles() {
         return personRoleJpaRepository.findAll();
     }
 
-    public PersonRole findRole(String roleName) {
+    public Role findRole(String roleName) {
         return personRoleJpaRepository.findByName(roleName);
     }
 
     public void addRoleToPerson(String email, String roleName) { // by passing in the two strings you are giving the user that certain role
         Person person = personJpaRepository.findByEmail(email);
         if (person != null) {   // verify person
-            PersonRole role = personRoleJpaRepository.findByName(roleName);
+            Role role = personRoleJpaRepository.findByName(roleName);
             if (role != null) { // verify role
                 boolean addRole = true;
-                for (PersonRole roleObj : person.getRoles()) {    // only add if user is missing role
+                for (Role roleObj : person.getRoles()) {    // only add if user is missing role
                     if (roleObj.getName().equals(roleName)) {
                         addRole = false;
                         break;

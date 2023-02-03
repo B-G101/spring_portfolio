@@ -1,8 +1,9 @@
 package com.nighthawk.spring_portfolio.mvc.database;
 
 import com.nighthawk.spring_portfolio.mvc.database.note.NoteJpaRepository;
-import com.nighthawk.spring_portfolio.mvc.database.role.Role;
-import com.nighthawk.spring_portfolio.mvc.database.role.RoleJpaRepository;
+import com.nighthawk.spring_portfolio.mvc.database.person.PersonRoleJpaRepository;
+import com.nighthawk.spring_portfolio.mvc.database.person.Role;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class ModelInit {
     // Inject repositories
     @Autowired NoteJpaRepository noteJpaRepository;
-    @Autowired RoleJpaRepository roleJpaRepository;
+    @Autowired PersonRoleJpaRepository roleJpaRepository;
     @Autowired ModelRepository modelRepository;
 
     @Bean

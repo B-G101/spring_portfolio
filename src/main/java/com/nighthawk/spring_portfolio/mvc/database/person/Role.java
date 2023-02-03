@@ -1,4 +1,4 @@
-package com.nighthawk.spring_portfolio.mvc.database.role;
+package com.nighthawk.spring_portfolio.mvc.database.person;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
