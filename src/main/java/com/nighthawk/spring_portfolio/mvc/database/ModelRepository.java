@@ -41,10 +41,6 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
     // Setup Password style for Database storing and lookup
     @Autowired  // Inject PasswordEncoder
     private PasswordEncoder passwordEncoder;
-    @Bean  // Sets up password encoding style
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
     /* UserDetailsService Overrides and maps Person & Roles POJO into Spring Security */
     @Override
