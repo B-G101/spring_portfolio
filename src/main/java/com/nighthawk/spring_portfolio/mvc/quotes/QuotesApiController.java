@@ -25,40 +25,4 @@ public class QuotesApiController {
         return new ResponseEntity<>( repository.findAll(), HttpStatus.OK);
     }
 
-    /* Update Like
-     * @PutMapping annotation is used for mapping HTTP PUT requests onto specific handler methods.
-     * @PathVariable annotation extracts the templated part {id}, from the URI
-     */
-    @PutMapping("/like/{id}")
-    public ResponseEntity<Quotes> setLike(@PathVariable long id) {
-        /* 
-        * Optional (below) is a container object which helps determine if a result is present. 
-        * If a value is present, isPresent() will return true
-        * get() will return the value.
-        */
-        Optional<Quotes> optional = repository.findById(id);
-        if (optional.isPresent()) {  // Good ID
-            Quotes quote = optional.get();  // value from findByID
-            quote.setHaha(quote.getHaha()+1); // increment value
-            repository.save(quote);  // save entity
-            return new ResponseEntity<>(quote, HttpStatus.OK);  // OK HTTP response: status code, headers, and body
-        }
-        // Bad ID
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // Failed HTTP response: status code, headers, and body
-    }
-
-    /* Update Jeer
-     */
-    @PutMapping("/jeer/{id}")
-    public ResponseEntity<Quotes> setJeer(@PathVariable long id) {
-        Optional<Quotes> optional = repository.findById(id);
-        if (optional.isPresent()) {  // Good ID
-            Quotes quote = optional.get();
-            quote.setBoohoo(quote.getBoohoo()+1);
-            repository.save(quote);
-            return new ResponseEntity<>(quote, HttpStatus.OK);
-        }
-        // Bad ID
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
 }

@@ -11,3 +11,4 @@ public interface QuotesJpaRepository extends JpaRepository<Quotes, Long> {
     List<Quotes> findAllByOrderByQuoteAsc();
     List<Quotes> findByQuoteIgnoreCase(String quote);
 }
+
