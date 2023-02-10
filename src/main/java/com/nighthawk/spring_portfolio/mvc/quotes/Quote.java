@@ -5,14 +5,76 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Random;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
 import javax.persistence.*;
 
-@Data  // Annotations to simplify writing code (ie constructors, setters)
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity // Annotation to simplify creating an entity, which is a lightweight persistence domain object. Typically, an entity represents a table in a relational database, and each entity instance corresponds to a row in that table.
-public class Quotes {
+@Table(name = "quotes")
+public class Quote {
+    private long id;
     private String quote;
+    private String author;
+    private String topic;
+
+    public Quote() {
+
+
+    }
+
+    public Quote(String quote, String author, String topic) {
+        this.quote = quote;
+        this.author = author;
+        this.topic = topic;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+        public long getId() {
+            return id;
+        }
+    public void setID(long id) {
+        this.id = id;
+    }
+
+    @Column(name = "quote", nullable = false)
+    public String getQuote() {
+        return quote;
+    }
+
+    public void setQuote(String quote) {
+        this.quote = quote;
+    }
+
+    @Column(name = "author", nullable = false)
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    @Column(name = "topic", nullable = false)
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    @Override
+    public String toString() {
+        return "Quote [id=" + id + ", quote=" + quote + ", author=" + author + ", topic=" + topic + "]";
+    }
+
 
     // starting quotes
    /*  public static String[] init() {
@@ -68,7 +130,7 @@ public class Quotes {
     }
 
     public static void main(String[] args) {
-        System.out.println(Quotes.getfinalQuote());
+        System.out.println(Quote.getfinalQuote());
     }
 }
 

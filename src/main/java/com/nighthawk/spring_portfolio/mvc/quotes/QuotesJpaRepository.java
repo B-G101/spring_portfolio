@@ -1,14 +1,11 @@
 package com.nighthawk.spring_portfolio.mvc.quotes;
 
-import java.util.List;
-
+import com.nighthawk.spring_portfolio.mvc.quotes.Quote;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+    
 
-// JPA is an object-relational mapping (ORM) to persistent data, originally relational databases (SQL). Today JPA implementations has been extended for NoSQL.
-public interface QuotesJpaRepository extends JpaRepository<Quotes, Long> {
-    // JPA has many built in methods, these few have been prototyped for this application
-    void save(String Quote);
-    List<Quotes> findAllByOrderByQuoteAsc();
-    List<Quotes> findByQuoteIgnoreCase(String quote);
+@Repository
+public interface QuotesJpaRepository extends JpaRepository<Quote, Long>{
+
 }
-
