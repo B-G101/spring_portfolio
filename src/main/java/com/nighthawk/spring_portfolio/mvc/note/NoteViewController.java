@@ -1,7 +1,7 @@
-package com.nighthawk.spring_portfolio.mvc.database.note;
+package com.nighthawk.spring_portfolio.mvc.note;
 
-import com.nighthawk.spring_portfolio.mvc.database.ModelRepository;
-import com.nighthawk.spring_portfolio.mvc.database.person.Person;
+import com.nighthawk.spring_portfolio.mvc.ModelRepository;
+import com.nighthawk.spring_portfolio.mvc.person.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +33,7 @@ public class NoteViewController {
         return htmlRenderer.render(document);
     }
 
-    @GetMapping("/database/notes/{id}")
+    @GetMapping("mvc/notes/{id}")
     public String notes(@PathVariable("id") Long id, Model model) {
         Person person = modelRepository.get(id);
         List<Note> notes = noteRepository.findAllByPerson(person);
@@ -46,13 +46,13 @@ public class NoteViewController {
         model.addAttribute("person", person);
         model.addAttribute("notes", notes);
         model.addAttribute("note", note);
-        return "mvc/database/notes";
+        return "/notes";
     }
 
-    @PostMapping("/database/notes")
+    @PostMapping("mvc/notes")
     public String notesAdd(@Valid Note note, BindingResult bindingResult) {
         // back to person ID on redirect
-        String redirect = "redirect:/database/notes/"+note.getPerson().getId();
+        String redirect = "redirect:mvc/notes/"+note.getPerson().getId();
 
         // database errors
         if (bindingResult.hasErrors()) {

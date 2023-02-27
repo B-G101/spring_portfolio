@@ -1,6 +1,6 @@
-package com.nighthawk.spring_portfolio.mvc.database.note;
+package com.nighthawk.spring_portfolio.mvc.note;
 
-import com.nighthawk.spring_portfolio.mvc.database.person.Person;
+import com.nighthawk.spring_portfolio.mvc.person.Person;
 import lombok.*;
 
 import javax.persistence.*;

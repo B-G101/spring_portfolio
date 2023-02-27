@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.nighthawk.spring_portfolio.mvc.database.person.PersonDetailsService;
+import com.nighthawk.spring_portfolio.mvc.person.PersonDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 

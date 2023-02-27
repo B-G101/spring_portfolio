@@ -31,7 +31,7 @@ import org.springframework.security.web.header.writers.StaticHeadersWriter;
 @EnableWebSecurity  // Beans to enable basic Web security
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+	
     @Autowired
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -68,12 +68,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			// no CSRF
 			.csrf().disable()
 			// list the requests/endpoints need to be authenticated
-			//.authorizeRequests()
+			.authorizeRequests()
 				//.antMatchers("/mvc/person/update/**", "/mvc/person/delete/**").authenticated()
 				//.antMatchers("/api/person/**").authenticated()
-				//.and()
+				.antMatchers("/mvc/person/delete/**").hasAnyAuthority("ROLE_ADMIN")
+				.antMatchers("/mvc/person/update/**").hasAnyAuthority("ROLE_ADMIN")
+				.antMatchers("/mvc/person/update/**", "/mvc/person/delete/**").authenticated()
+				.and()
+			.cors().and()	
 			// support cors
-			.cors().and()
 			.headers()
 				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials", "true"))
 				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-ExposedHeaders", "*", "Authorization"))
@@ -83,12 +86,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "https://nighthawkcoders.github.io", "http://localhost:4000"))
 				.and()
 			.formLogin()
-                .loginPage("/login")
-                .and()
-            .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-				.and()
+        .loginPage("/login")
+		.permitAll()
+        .and()
+    .logout()
+		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		.logoutSuccessUrl("/")
+						.permitAll()
+						.and()
 			// make sure we use stateless session; 
 			// session won't be used to store user's state.
 			.exceptionHandling()

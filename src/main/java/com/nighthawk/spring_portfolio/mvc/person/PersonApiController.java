@@ -1,6 +1,6 @@
-package com.nighthawk.spring_portfolio.mvc.database.person;
+package com.nighthawk.spring_portfolio.mvc.person;
 
-import com.nighthawk.spring_portfolio.mvc.database.ModelRepository;
+import com.nighthawk.spring_portfolio.mvc.ModelRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

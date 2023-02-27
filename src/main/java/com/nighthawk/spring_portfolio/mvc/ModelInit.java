@@ -1,8 +1,10 @@
-package com.nighthawk.spring_portfolio.mvc.database;
+package com.nighthawk.spring_portfolio.mvc;
 
-import com.nighthawk.spring_portfolio.mvc.database.note.NoteJpaRepository;
-import com.nighthawk.spring_portfolio.mvc.database.person.PersonRoleJpaRepository;
-import com.nighthawk.spring_portfolio.mvc.database.person.Role;
+import com.nighthawk.spring_portfolio.mvc.note.NoteJpaRepository;
+import com.nighthawk.spring_portfolio.mvc.person.PersonRoleJpaRepository;
+import com.nighthawk.spring_portfolio.mvc.person.Person;
+import com.nighthawk.spring_portfolio.mvc.person.PersonDetailsService;
+import com.nighthawk.spring_portfolio.mvc.person.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +16,7 @@ public class ModelInit {
     // Inject repositories
     @Autowired NoteJpaRepository noteJpaRepository;
     @Autowired PersonRoleJpaRepository roleJpaRepository;
+    @Autowired PersonDetailsService personService;
     @Autowired ModelRepository modelRepository;
 
     @Bean
@@ -32,8 +35,9 @@ public class ModelInit {
             modelRepository.defaults("123querty", "ROLE_USER");
 
             // make sure privileged roles exist for Teacher
-            modelRepository.addRoleToPerson("briagee101@gmail.com", "ROLE_ADMIN");
-
+            modelRepository.addRoleToPerson("bria@gmail.com", "ROLE_ADMIN");
+            
+            
 
         };
     }

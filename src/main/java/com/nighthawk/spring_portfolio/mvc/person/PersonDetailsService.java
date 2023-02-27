@@ -1,22 +1,12 @@
-package com.nighthawk.spring_portfolio.mvc.database;
-
-import com.nighthawk.spring_portfolio.mvc.database.person.Person;
-import com.nighthawk.spring_portfolio.mvc.database.person.PersonJpaRepository;
-import com.nighthawk.spring_portfolio.mvc.database.person.Role;
-import com.nighthawk.spring_portfolio.mvc.database.person.PersonRoleJpaRepository;
-//import com.nighthawk.spring_portfolio.mvc.database.scrum.Scrum;
-//import com.nighthawk.spring_portfolio.mvc.database.scrum.ScrumJpaRepository;
+package com.nighthawk.spring_portfolio.mvc.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,16 +19,12 @@ This class has an instance of Java Persistence API (JPA)
 */
 @Service
 @Transactional
-public class ModelRepository implements UserDetailsService {  // "implements" ties ModelRepo to Spring Security
+public class PersonDetailsService implements UserDetailsService {  // "implements" ties ModelRepo to Spring Security
     // Encapsulate many object into a single Bean (Person, Roles, and Scrum)
     @Autowired  // Inject PersonJpaRepository
     private PersonJpaRepository personJpaRepository;
     @Autowired  // Inject RoleJpaRepository
-    private PersonRoleJpaRepository roleJpaRepository;
-    //@Autowired  // Inject RoleJpaRepository
-    //private ScrumJpaRepository scrumJpaRepository;
-
-    // Setup Password style for Database storing and lookup
+    private PersonRoleJpaRepository personRoleJpaRepository;
     @Autowired  // Inject PasswordEncoder
     private PasswordEncoder passwordEncoder;
 
@@ -47,7 +33,7 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
     public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Person person = personJpaRepository.findByEmail(email); // setting variable user equal to the method finding the username in the database
         if(person==null){
-            throw new UsernameNotFoundException("User not found in database");
+			throw new UsernameNotFoundException("User not found with username: " + email);
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         person.getRoles().forEach(role -> { //loop through roles
@@ -56,11 +42,15 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
         return new org.springframework.security.core.userdetails.User(person.getEmail(), person.getPassword(), authorities);
     }
 
-
     /* Person Section */
 
     public  List<Person>listAll() {
         return personJpaRepository.findAllByOrderByNameAsc();
+    }
+
+    // custom query to find match to name or email
+    public  List<Person>list(String name, String email) {
+        return personJpaRepository.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(name, email);
     }
 
     // custom query to find anything containing term in name or email ignoring case
@@ -90,7 +80,6 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
     }
 
     public void delete(long id) {
-       // deleteScrumMember(id);   // make sure ID is no longer present in SCRUM Teams
         personJpaRepository.deleteById(id);
     }
 
@@ -100,7 +89,7 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
                 person.setPassword(passwordEncoder.encode(password));
             }
             if (person.getRoles().isEmpty()) {
-                Role role = roleJpaRepository.findByName(roleName);
+                Role role = personRoleJpaRepository.findByName(roleName);
                 if (role != null) { // verify role
                     person.getRoles().add(role);
                 }
@@ -112,24 +101,24 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
     /* Roles Section */
 
     public void saveRole(Role role) {
-        Role roleObj = roleJpaRepository.findByName(role.getName());
+        Role roleObj = personRoleJpaRepository.findByName(role.getName());
         if (roleObj == null) {  // only add if it is not found
-            roleJpaRepository.save(role);
+            personRoleJpaRepository.save(role);
         }
     }
 
     public  List<Role>listAllRoles() {
-        return roleJpaRepository.findAll();
+        return personRoleJpaRepository.findAll();
     }
 
     public Role findRole(String roleName) {
-        return roleJpaRepository.findByName(roleName);
+        return personRoleJpaRepository.findByName(roleName);
     }
 
     public void addRoleToPerson(String email, String roleName) { // by passing in the two strings you are giving the user that certain role
         Person person = personJpaRepository.findByEmail(email);
         if (person != null) {   // verify person
-            Role role = roleJpaRepository.findByName(roleName);
+            Role role = personRoleJpaRepository.findByName(roleName);
             if (role != null) { // verify role
                 boolean addRole = true;
                 for (Role roleObj : person.getRoles()) {    // only add if user is missing role
@@ -142,45 +131,5 @@ public class ModelRepository implements UserDetailsService {  // "implements" ti
             }
         }
     }
-
-
-    /* Scrum Section */
-    /* 
-    public void saveScrum(Scrum scrum) {
-        scrumJpaRepository.save(scrum);
-    }
-
-    public List<Scrum> listAllScrums() {
-        return scrumJpaRepository.findAllByOrderByNameAsc();
-    }
-
-    public Scrum getScrum(long id) {
-        return (scrumJpaRepository.findById(id).isPresent())
-                ? scrumJpaRepository.findById(id).get()
-                : null;
-    }
-
-    public void deleteScrum(long id) {
-        scrumJpaRepository.deleteById(id);
-    }
-
-    private boolean is_deletedScrum(Person p, long id) {
-        return (p != null && p.getId() == id );
-    }
-
-    public void deleteScrumMember(long id) {
-        List<Scrum> scrum_list = scrumJpaRepository.findAll();
-        for (Scrum scrum: scrum_list) {
-            boolean changed = false;
-            if (is_deletedScrum(scrum.getPrimary(), id)) {scrum.setPrimary(null); changed = true;}
-            if (is_deletedScrum(scrum.getMember1(), id)) {scrum.setMember1(null); changed = true;}
-            if (is_deletedScrum(scrum.getMember2(), id)) {scrum.setMember2(null); changed = true;}
-            if (is_deletedScrum(scrum.getMember3(), id)) {scrum.setMember3(null); changed = true;}
-            if (is_deletedScrum(scrum.getMember4(), id)) {scrum.setMember4(null); changed = true;}
-            if (changed) {
-                scrumJpaRepository.save(scrum);}
-        }
     
-    }
-    */
 }
