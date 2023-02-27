@@ -36,6 +36,10 @@ public class Person {
     @Email
     private String email;
 
+    private String traits;
+    private String pros;
+    private String cons;
+
     @NotEmpty
     private String password;
 
@@ -48,10 +52,13 @@ public class Person {
     private String name;
 
     // Initializer used when setting database from an API
-    public Person(String email, String password, String name, Role role) {
+    public Person(String email, String password, String name, String traits, String pros, String cons, Role role) {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.traits = traits;
+        this.pros = pros;
+        this.cons = cons;
         this.roles.add(role);
     }
 

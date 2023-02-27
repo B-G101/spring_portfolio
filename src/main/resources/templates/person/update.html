@@ -70,6 +70,21 @@
                             <input type="text" th:field="*{name}" id="name">
                             <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</small>
                         </div>
+                        <div class="form-group mb-2 mr-sm-2">
+                            <label for="traits">Traits:</label>
+                            <input type="text" th:field="*{traits}" id="traits">
+                            <small th:if="${#fields.hasErrors('traits')}" th:errors="*{traits}">Trait Error</small>
+                        </div>
+                        <div class="form-group mb-2 mr-sm-2">
+                            <label for="pros">Pros:</label>
+                            <input type="text" th:field="*{pros}" id="pros">
+                            <small th:if="${#fields.hasErrors('pros')}" th:errors="*{pros}">Trait Error</small>
+                        </div>
+                        <div class="form-group mb-2 mr-sm-2">
+                            <label for="cons">Cons:</label>
+                            <input type="text" th:field="*{cons}" id="cons">
+                            <small th:if="${#fields.hasErrors('cons')}" th:errors="*{cons}">Trait Error</small>
+                        </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>
                 </div>
