@@ -4,7 +4,7 @@ services:
     image: java_spring_binarybeasts
     build: .
     ports:
-      - "8085:8085"
+      - "8197:8197"
     volumes:
       - persistent_volume:/app/volumes
     restart: unless-stopped
