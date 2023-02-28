@@ -14,4 +14,4 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/ubuntu/tri2/t7_binarybeasts_8197/volumes
+      device: /home/ubuntu/tri2/t7_binaryBeasts_8197/volumes
